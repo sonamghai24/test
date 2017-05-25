@@ -1,0 +1,26 @@
+body {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+td {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+th {
+	font-family: Arial, Helvetica, sans-serif;
+}
+.header
+{
+	float: left;
+}
+.name
+{
+	float:left;
+}
+.img-circle {
+    border-radius: 50%;
+}
+.select
+{
+	float: center;
+}
