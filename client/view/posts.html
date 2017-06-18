@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en" ng-app>
+  <head>
+      <!-- our local copy of the jquery library. Normally, we'd use a CDN copy to use someone else's bandwidth -->
+        <script src="js/jquery.min.js"></script>
+        <!-- I am including this script directly in the HTML, but usually this would be in its own file  -->
+        <script>
+            //handle a click on the LIKE button we've included with each post
+            //we receive the ID of the post as a parameter
+            function likeClick(id){
+                Promise.resolve()
+                .then(function(){
+                    //jQuery provides a nice convenience method for easily sending a post with parameters in JSON
+                    //here we pass the ID to the incrLike route on the server side so it can do the incrementing for us
+                    //note the return. This MUST be here, or the subsequent then will not wait for this to complete
+                    return $.post('incrLike', {id : id});
+                })
+                .then(function(like){
+                    //jQuery provides a nice convenience methot for easily setting the count to the value returned
+                    $('#like' + like.id).html(like.count);
+                })
+                .catch(function(err){
+                    //always include a catch for the promise chain
+                    console.log(err);
+                });
+            }
+            
+            //the non-jQuery version of likeClick() looks like this:
+            function likeClickNJQ(id){
+                //create an XMLHttpRequest object
+                var xhr = new XMLHttpRequest();
+                //say we want to do a post to incrLike
+                xhr.open("POST", "incrLike", true);
+                //set up the header to say we're sending json data
+                xhr.setRequestHeader("Content-type", "application/json");
+                //define a callback to determine what we're going to do with the response
+                xhr.onreadystatechange = function () {
+                    //if things were successful
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        //parse the string data received back into JSON data
+                        var like = JSON.parse(xhr.responseText);
+                        //update the element with the count
+                        document.getElementById('like' + like.id).innerHTML = like.count;
+                    }
+                };
+                //create a string from the JSON data we want to send
+                var data = JSON.stringify({"id": id});
+                //send it
+                xhr.send(data);
+            }            
+
+            //onLoad function, to be executed when page is completed loaded by browser
+            function onload(){
+                //start a promise chain
+                Promise.resolve()
+                .then(function(){
+                    //jQuery function to request all the posts from the server
+                    //the 'return' is required. Otherwise, the subsequent then will not wait for this to complete
+                    return $.post('posts');  
+                })
+                //when the server responds, we'll execute this code
+                .then(function(posts){
+                    //jQuery function to set the innerHTML of the div with id = 'posts' to empty
+                    $('#posts').html('');
+                    //loop over each post item in the posts array
+                    posts.forEach(function(post){
+                        //jQuery function to append to the innterHTML of the div with id = 'posts'
+                        $('#posts').append(
+                            //remember the id in a data- element (we can define as many of our own as needed)
+                            '<div data-postId="' + post._id + '">' +
+                            //set the image url in the img tag. This will force the browser to go get it
+                            '<img src="' + post.image + '"/>' +
+                            //set the comment into a paragraph
+                            '<p>' + post.comment + '</p>' +
+                            //set the like count
+                            '<p>Like Count: ' + 
+                            //use a span with an id so the javascript can find this easily later
+                            '<span id ="like' + post._id + '">' + post.likeCount + '</span>' + 
+                            '</p>' +
+                            //set up the click event to call likeClick() with the id of this item as a parameter
+                            '<button onclick="likeClick(\'' + post._id + '\');">Like</button>' +
+                            '</div>'
+                        );
+                    });
+                })
+                .catch(function(err){
+                    //always include a catch for exceptions
+                    console.log(err);
+                });
+            }
+        </script>
+    <title>instagram</title>
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/client/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/client/css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" type="text/css" href="/client/css/homepage.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <style>
+     
+    </style>
+  </head>
+  <body>
+      <div>
+        <div class="container">
+         <div class="row"  >
+           	<div class="col-sm-12">
+            <div>
+        			 <div class="header" ><img src="/client/img/Untitled.jpg" class="camlogo">&nbsp;&nbsp;</div>
+        			  <div class="vertical_line" ></div>
+        		      <div class="header">&nbsp;&nbsp;&nbsp;<img src="/client/img/instaicon.jpg" class="instalogo"></div>
+        			    	<div class="select">&nbsp;&nbsp;
+        					    <form>
+              				    	<input type="text" name="search" placeholder="Search.." class="searh" >
+            						<img src="/client/img/circlelogo.jpg"  class="contacticon">
+            						<img src="/client/img/LikeIcon.jpg"  class="likeicon" >
+            						<img src="/client/img/contactlogo.jpg"  class="sendicon" >
+          			           </form>
+                           </div>
+           	</div>
+        	</div>	 
+        	</div>
+        	</div>
+        	<div class="bordr"></div> 
+        	
+        	<br><br><br>
+        	 <div>
+        	     <div >
+        	        <div class="container">
+        			   <div class="row" >  
+        	              <div class="col-sm-3"></div>
+        	                <div class="col-sm-6"  >
+        	                   <div class="bordrpic">
+        			          <p ><img src="/client/img/teddy.jpg" class="ciclepic">cute_teddy_bears 6h</p>
+        			          </div>
+        			        </div>
+        			        <div class="col-sm-3"></div>
+        			      </div>
+                     </div>
+                 </div>
+            </div>
+            <div class="container">
+            <div class="row">
+        	  <div class="col-sm-3"></div>
+                <div class="col-sm-6">
+                    <div class="bordrpic">
+                   <img src="/client/img/cute.jpg" class="mainpic">
+                   </div>
+        			  </div>
+        		    <div class="col-sm-3"></div>
+            </div>
+             <div class="row">
+                 <div class="col-sm-3"></div>
+                <div class="col-sm-6">
+                     <div class="bordrpic">
+                      <p>7,061likes</p><b>_jo._.hanni</b> adorable<p><b>nana89leo</b> </p> Haha,cute <p><b>ashilpashri16</b>  so cute</p><hr>
+        			    <div class="likepic"><img src="/client/img/LikeIcon.jpg" >Add a Comment...</div>
+        			 </div>
+        		</div>
+            <div class="col-sm-3"></div>
+        	</div>
+            </div>
+        
+      </div>
+           
+        <div id="posts"></div>
+        			
+        		
+
+    
+    
+    
+    
+    
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+   
+  </body>
+</html>

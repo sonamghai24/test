@@ -1,13 +1,64 @@
-body {
-	font-family: Arial, Helvetica, sans-serif;
+
+
+
+.camlogo
+{
+     width:30px;
+     height:30px;
+     margin-top: 20px;
+     margin-left: 80px;
+  
 }
 
-td {
-	font-family: Arial, Helvetica, sans-serif;
+
+.instalogo
+{
+    width:130px;
+    height:30px;
+     margin-top: 20px;
+    margin-bottom: 20px;
+}
+.searh
+{
+     display: inline-block;
+    width: 200px;
+    height: 75px;
+   
+    margin-left: 20px;
+    margin-right: 280px;
+    border: 3px solid #73AD21;
 }
 
-th {
-	font-family: Arial, Helvetica, sans-serif;
+.contacticon
+{
+   width:30px;
+   height:15px; margin-right: 20px;
+}
+.sendicon
+{
+   width:30px;
+   height:15px;
+  
+}
+.likeicon
+{
+    width:30px;
+   height:15px;
+   margin-right: 20px;
+}
+
+.vertical_line
+{
+    height:30px; 
+    width:1px;
+    background:#000;
+    float:left;
+    
+    margin-bottom: 15px;
+    margin-left: 13px;
+    margin-right: 0px;
+    margin-top: 18px;
+    
 }
 .header
 {
@@ -22,5 +73,42 @@ th {
 }
 .select
 {
-	float: center;
+	float: right;
+	
+}
+.ciclepic
+{
+    height:50px;
+    width: 40px;
+}
+.mainpic
+{
+    height:1000px;
+    width: 1000px;
+}
+.bordr
+{
+    
+    border-bottom:ridge;
+    margin-top:10px;
+    
+}
+.bordrpic
+{
+   
+    border:1px;
+    border-style: ridge;
+}
+.likepic
+{
+  width: 50px;
+  height: 50px;
+}
+.data_box
+{
+    margin-top:100px; 
+}
+.data_boxfooter
+{
+    margin-bottom: 10px;
 }
